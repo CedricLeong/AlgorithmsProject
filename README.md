@@ -3,8 +3,8 @@
 ##UOIT 2013 Design and Analysis of Algorithms
 
 ##Algorithms 
-Dijsktra
-A*
+<p>Dijsktra</p>
+<p>A*</p>
 
 ##Authors
 
