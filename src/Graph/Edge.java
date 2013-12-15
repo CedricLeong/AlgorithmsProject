@@ -2,19 +2,14 @@
 
 public class Edge {
 	
-	private int id; 
 	private final Vertex source;
 	private final Vertex destination; 
 	
+	// An edge connects two nodes bi-directionally
 	public Edge(Vertex prev, Vertex next)
 	{
 		this.source = prev;
 		this.destination = next;
-	}
-	
-	public int getId()
-	{
-		return this.id;
 	}
 	
 	public Vertex getSource()

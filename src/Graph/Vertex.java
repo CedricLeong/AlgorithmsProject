@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Vertex  implements Comparable<Vertex> {
 	
-	public int id;
-	public int distance = 999999; 
+	public int id; // ID for node
+	public int distance = 999999; // Set distance to infinity
 	private ArrayList<Edge> outgoingEdges = new ArrayList<Edge>();
 
 	
@@ -27,15 +27,18 @@ public class Vertex  implements Comparable<Vertex> {
 		this.distance = distance;
 	}
 
+	// Get the nodes connected
 	public ArrayList<Edge> getOutgoingEdges() {
 		return outgoingEdges;
 	}
 	
+	// Adds an connected vertex to the vertex
 	public void addOutgoingEdge(Vertex v) {
 		Edge newEdge = new Edge(this, v);
 		outgoingEdges.add(newEdge);
 	}
 
+	// Make the vertex object comparable to each other so they can be used in a heap
 	@Override
 	public int compareTo(Vertex arg0) {
 		// TODO Auto-generated method stub
