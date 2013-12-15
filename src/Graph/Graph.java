@@ -24,7 +24,7 @@ public class Graph {
 	}
 
 	public void AddOutgoingEdge(Edge node) {
-        this.outGoingEdges.add(new Edge(node));
+        this.outGoingEdges.add(node);
 		}
 /**
 * 

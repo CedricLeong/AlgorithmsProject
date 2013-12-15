@@ -2,7 +2,7 @@ package Graph;
 
 import java.util.ArrayList;
 
-public class Vertex {
+public class Vertex  implements Comparable<Vertex> {
 	
 	public int id;
 	public int distance = 999999; 
@@ -31,12 +31,16 @@ public class Vertex {
 		return outgoingEdges;
 	}
 	
-	public ArrayList<Edge> getNextOutgoingEdges() {
-		return outgoingEdges;
+	public void addOutgoingEdge(Vertex v) {
+		Edge newEdge = new Edge(this, v);
+		outgoingEdges.add(newEdge);
 	}
 
-	public void addOutgoingEdges(Vertex outgoingEdge) {
-		this.outgoingEdges.addAll( outgoingEdges);
+	@Override
+	public int compareTo(Vertex arg0) {
+		// TODO Auto-generated method stub
+		Integer distance1 = this.distance;
+		Integer distance2 = arg0.getDistance();
+		return distance1.compareTo(distance2);
 	}
-	
 }
