@@ -7,6 +7,7 @@ public class Vertex  implements Comparable<Vertex> {
 	public int id; // ID for node
 	public int distance = 999999; // Set distance to infinity
 	private ArrayList<Edge> outgoingEdges = new ArrayList<Edge>();
+	private boolean visited = false;
 
 	
 	public Vertex(int idv)
@@ -45,5 +46,13 @@ public class Vertex  implements Comparable<Vertex> {
 		Integer distance1 = this.distance;
 		Integer distance2 = arg0.getDistance();
 		return distance1.compareTo(distance2);
+	}
+
+	public boolean isVisited() {
+		return visited;
+	}
+
+	public void setVisited(boolean visited) {
+		this.visited = visited;
 	}
 }

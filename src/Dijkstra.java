@@ -18,12 +18,13 @@ public class Dijkstra {
     public static ArrayList<Vertex> existingVertex = new ArrayList <Vertex> ();
     
     // Current diameter of the graph 
-	public static int diameter;
+	public static  ArrayList<Integer> diameterlist = new ArrayList <Integer> ();
 
 
-    public static void execute(){
+    public static void execute(int source){
     	// Set the first node as source node 
-    	existingVertex.get(0).setDistance(0);
+    	int diameter =0;
+    	existingVertex.get(source).setDistance(0);
     	
     	// Add all nodes into a heap
     	pQueue.addAll(existingVertex);
@@ -31,15 +32,22 @@ public class Dijkstra {
             		
             		// Take out first node
                     Vertex n = pQueue.remove();
-                    
+                    n.setVisited(true);
+          		  System.out.println("original id:" + n.id);
+
                     
                     for (Edge e: n.getOutgoingEdges()){
                             Vertex adjNode = e.getDestination();
+                    		  System.out.println("id:" + adjNode.id);
                             Integer newPossiblePathCost = 1+ n.getDistance();
-                             adjNode.setDistance(newPossiblePathCost); // Might need to add a new if statement later on 
+                            if (Boolean.FALSE.equals(adjNode.isVisited())) {
+                            if (newPossiblePathCost<adjNode.getDistance()){
+                             adjNode.setDistance(newPossiblePathCost); 
+                     		  System.out.println("distance:" + adjNode.getDistance());
+
                                     // update
                              pQueue.remove(adjNode);
-                             pQueue.add(adjNode);
+                             pQueue.add(adjNode);}}
                     }
                     
                     // Save the diameter of the traversed graph
@@ -48,6 +56,8 @@ public class Dijkstra {
                     	diameter = n.getDistance();
                     }
             }       
+            
+            diameterlist.add(diameter);
             
     }
 
@@ -88,10 +98,26 @@ public class Dijkstra {
 
 			    			if (existingVertex.get(i).id == row)
 			    			{
-					    		existingVertex.get(i).addOutgoingEdge(connectedVertex);
-					    		existingVertex.add(connectedVertex);
+			    				existingVertex.get(i).addOutgoingEdge(connectedVertex);
+			    				existingVertex.add(connectedVertex);
+			    				existingVertex.get(i+1).addOutgoingEdge(existingVertex.get(i));
+			    				
+					    		for (int j = 0; j < existingVertex.size()-1; j++)
+					    		{
+					    			// If the node already exists then remove any duplicates
+					    			if(existingVertex.get(j).id == col)
+					    			{
+					    				existingVertex.remove(existingVertex.size()-1);
+					    				existingVertex.get(j).addOutgoingEdge(connectedVertex);
+
+					    			}
+					    		}
+
 			    			}
+			    			
 			    		}
+			    		
+			    		
 
 			    	
 			    		}
@@ -109,10 +135,20 @@ public class Dijkstra {
 			}
 		  	
 		 // Call Dijkstra 
-		  execute();		
+  		for (int i = 0; i < existingVertex.size()-1; i++)
+  		{
+  			execute(i);	
+  	  		
+  		}		
 		  
+  		int graphdiameter = 0;
 		  // Print out the diameter
-		  System.out.println("The diameter of the graph is:" + diameter);
+  		for (int i = 0; i < diameterlist.size()-1; i++)
+  		{
+  			if (diameterlist.get(i) > graphdiameter)
+  				graphdiameter = diameterlist.get(i);
+  		}
+		  System.out.println("The diameter of the graph is:" + graphdiameter);
 
 	}
 
