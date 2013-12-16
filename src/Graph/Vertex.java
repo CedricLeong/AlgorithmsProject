@@ -7,7 +7,7 @@ public class Vertex  implements Comparable<Vertex> {
 	public int id; // ID for node
 	public int distance = 999999; // Set distance to infinity
 	private ArrayList<Edge> outgoingEdges = new ArrayList<Edge>();
-	private boolean visited = false;
+	public  boolean visited = false;
 
 	
 	public Vertex(int idv)

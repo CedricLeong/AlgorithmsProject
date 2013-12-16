@@ -11,9 +11,7 @@ import java.util.*;
 import Graph.*;
 
 public class Dijkstra {	  
-	
-	private static PriorityQueue<Vertex> pQueue = new PriorityQueue<Vertex>();
-	
+		
 	// All the nodes in the graph
     public static ArrayList<Vertex> existingVertex = new ArrayList <Vertex> ();
     
@@ -22,6 +20,8 @@ public class Dijkstra {
 
 
     public static void execute(int source){
+      PriorityQueue<Vertex> pQueue = new PriorityQueue<Vertex>();
+
     	// Set the first node as source node 
     	int diameter =0;
     	existingVertex.get(source).setDistance(0);
@@ -39,11 +39,15 @@ public class Dijkstra {
                     for (Edge e: n.getOutgoingEdges()){
                             Vertex adjNode = e.getDestination();
                     		  System.out.println("id:" + adjNode.id);
+                    		  System.out.println("visited:" + adjNode.visited);
+
+
                             Integer newPossiblePathCost = 1+ n.getDistance();
                             if (Boolean.FALSE.equals(adjNode.isVisited())) {
+
                             if (newPossiblePathCost<adjNode.getDistance()){
                              adjNode.setDistance(newPossiblePathCost); 
-                     		  System.out.println("distance:" + adjNode.getDistance());
+                     		 System.out.println("distance:" + adjNode.getDistance());
 
                                     // update
                              pQueue.remove(adjNode);
@@ -51,7 +55,7 @@ public class Dijkstra {
                     }
                     
                     // Save the diameter of the traversed graph
-                    if(n.getDistance() > diameter )
+                    if(n.getDistance() > diameter  && n.getDistance() != 999999)
                     {
                     	diameter = n.getDistance();
                     }
@@ -93,30 +97,39 @@ public class Dijkstra {
 			    		// The column number is made into a node that connects to the row node
 			    		col = Integer.parseInt(tk.nextToken());
 			    		Vertex connectedVertex = new Vertex(col);
+			    		existingVertex.add(connectedVertex);
+			    		
+			    		boolean found = false;
 			    		for (int i = 0; i < existingVertex.size(); i++)
 			    		{
 
 			    			if (existingVertex.get(i).id == row)
 			    			{
-			    				existingVertex.get(i).addOutgoingEdge(connectedVertex);
-			    				existingVertex.add(connectedVertex);
-			    				existingVertex.get(i+1).addOutgoingEdge(existingVertex.get(i));
-			    				
 					    		for (int j = 0; j < existingVertex.size()-1; j++)
 					    		{
 					    			// If the node already exists then remove any duplicates
 					    			if(existingVertex.get(j).id == col)
 					    			{
 					    				existingVertex.remove(existingVertex.size()-1);
-					    				existingVertex.get(j).addOutgoingEdge(connectedVertex);
-
+					    				existingVertex.get(i).addOutgoingEdge(existingVertex.get(j));
+					    				existingVertex.get(j).addOutgoingEdge(existingVertex.get(i));
+					    				found = true;
 					    			}
 					    		}
-
+					    		
 			    			}
 			    			
 			    		}
-			    		
+			    		if (!found)
+			    		{
+				    		for (int i = 0; i < existingVertex.size(); i++)
+				    		{
+
+				    			if (existingVertex.get(i).id == row)
+				    			{
+		    				existingVertex.get(i).addOutgoingEdge(existingVertex.get(existingVertex.size()-1));
+		    				existingVertex.get(existingVertex.size()-1).addOutgoingEdge(existingVertex.get(i));}}
+			    		}
 			    		
 
 			    	
@@ -137,8 +150,17 @@ public class Dijkstra {
 		 // Call Dijkstra 
   		for (int i = 0; i < existingVertex.size()-1; i++)
   		{
+
   			execute(i);	
-  	  		
+  			System.out.println("Small bug");
+    		for (int j = 0;j < existingVertex.size()-1; j++)
+    		{
+    			// reset node values
+    			existingVertex.get(j).visited = false;
+    			existingVertex.get(j).distance = 999999;
+
+    		}
+  			
   		}		
 		  
   		int graphdiameter = 0;
